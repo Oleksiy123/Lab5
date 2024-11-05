@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<title>Таблиця 6x6</title>
+<style>
+    table { border-collapse: collapse; width: 300px; }
+    td { width: 50px; height: 50px; text-align: center; border: 1px solid black; }
+</style>
+</head>
+<body>
+
+<h3>Оберіть колір:</h3>
+<input type="color" id="colorPicker" value="#ff0000">
+
+<table id="myTable"></table>
+
+<script>
+const table = document.getElementById("myTable");
+const variantNumber = 7; // Номер варіанта
+const rows = 6;
+const cols = 6;
+
+// Функція для створення таблиці
+function createTable() {
+    let count = 1;
+    for (let i = 0; i < rows; i++) {
+        const row = document.createElement("tr");
+        for (let j = 0; j < cols; j++) {
+            const cell = document.createElement("td");
+            cell.textContent = count;
+            if (count === variantNumber) {
+                // Додавання подій для клітинки з номером варіанта
+                cell.addEventListener("mouseover", changeToRandomColor);
+                cell.addEventListener("click", changeToSelectedColor);
+                cell.addEventListener("dblclick", changeRowColors);
+            }
+            row.appendChild(cell);
+            count++;
+        }
+        table.appendChild(row);
+    }
+}
+
+// Функція для випадкової зміни кольору
+function changeToRandomColor(event) {
+    const randomColor = `#${Math.floor(Math.random() * 16777215).toString(16)}`;
+    event.target.style.backgroundColor = randomColor;
+}
+
+// Функція для зміни кольору на обраний з палітри
+function changeToSelectedColor(event) {
+    const selectedColor = document.getElementById("colorPicker").value;
+    event.target.style.backgroundColor = selectedColor;
+}
+
+// Функція для зміни кольору рядків через один, починаючи з обраного
+function changeRowColors(event) {
+    const selectedRow = event.target.parentElement;
+    let changeColor = false;
+    for (let row of table.rows) {
+        if (row === selectedRow) {
+            changeColor = true;
+        }
+        if (changeColor) {
+            row.style.backgroundColor = document.getElementById("colorPicker").value;
+        }
+        changeColor = !changeColor; // Перемикання через один рядок
+    }
+}
+
+// Створення таблиці при завантаженні сторінки
+createTable();
+</script>
+
+</body>
+</html>

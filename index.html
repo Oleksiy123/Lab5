@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<title>Форма для завдання</title>
+<style>
+    .error { background-color: #f8d7da; }
+</style>
+</head>
+<body>
+
+<form id="myForm">
+    <label for="field1">ПІБ:</label>
+    <input type="text" id="field1" name="field1" placeholder="Напр., ГАБРИСЬ О.С."><br><br>
+    
+    <label for="field2">Варіант:</label>
+    <input type="text" id="field2" name="field2" placeholder="Напр., 07"><br><br>
+    
+    <label for="field3">Телефон:</label>
+    <input type="text" id="field3" name="field3" placeholder="Напр., (123)-456-7890"><br><br>
+    
+    <label for="field4">Факультет:</label>
+    <input type="text" id="field4" name="field4" placeholder="Напр., ФІОТ"><br><br>
+    
+    <label for="field5">Адреса:</label>
+    <input type="text" id="field5" name="field5" placeholder="Напр., м. Київ"><br><br>
+    
+    <button type="button" onclick="validateForm()">Відправити</button>
+</form>
+
+    <p><a href="task2.html" target="_blank">Перейти до другого завдання</a></p>
+
+<script>
+function validateForm() {
+    document.querySelectorAll("input").forEach(input => input.classList.remove("error"));
+    let valid = true;
+    
+    const regex1 = /^[А-ЯІЇЄ]{2,}\s[А-ЯІЇЄ]\.[А-ЯІЇЄ]\.$/; // ПІБ: ТТТТТТ Т.Т.
+    const regex2 = /^\d{2}$/;                             // Варіант: ЧЧ
+    const regex3 = /^\(\d{3}\)-\d{3}-\d{4}$/;             // Телефон: (ЧЧЧ)-ЧЧЧ-ЧЧЧЧ
+    const regex4 = /^[А-ЯІЇЄ]{3,4}$/;                     // Факультет: ТТТТ
+    const regex5 = /^м\.\s[А-Яа-яІЇЄієї]{2,}$/;           // Адреса: м. ЧЧЧЧЧЧ
+
+    if (!regex1.test(document.getElementById("field1").value)) {
+        document.getElementById("field1").classList.add("error");
+        valid = false;
+    }
+    if (!regex2.test(document.getElementById("field2").value)) {
+        document.getElementById("field2").classList.add("error");
+        valid = false;
+    }
+    if (!regex3.test(document.getElementById("field3").value)) {
+        document.getElementById("field3").classList.add("error");
+        valid = false;
+    }
+    if (!regex4.test(document.getElementById("field4").value)) {
+        document.getElementById("field4").classList.add("error");
+        valid = false;
+    }
+    if (!regex5.test(document.getElementById("field5").value)) {
+        document.getElementById("field5").classList.add("error");
+        valid = false;
+    }
+    
+    if (valid) {
+        // Відкриття нового вікна
+        const newWindow = window.open("", "Введені дані", "width=400,height=300");
+        
+        // Зміст нового вікна
+        newWindow.document.write("<h2>Введена інформація:</h2>");
+        newWindow.document.write("<p><strong>ПІБ:</strong> " + document.getElementById("field1").value + "</p>");
+        newWindow.document.write("<p><strong>Варіант:</strong> " + document.getElementById("field2").value + "</p>");
+        newWindow.document.write("<p><strong>Телефон:</strong> " + document.getElementById("field3").value + "</p>");
+        newWindow.document.write("<p><strong>Факультет:</strong> " + document.getElementById("field4").value + "</p>");
+        newWindow.document.write("<p><strong>Адреса:</strong> " + document.getElementById("field5").value + "</p>");
+    } else {
+        alert("Є помилки у введених даних.");
+    }
+}
+</script>
+
+</body>
+</html>
